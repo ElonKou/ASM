@@ -11,11 +11,11 @@ _start:
 	movl %eax,%ebx
 
 start_loop:
-	cmpl $0,%edi
-	je loop_exit
 	incl %edi
 	movl data_item(,%edi,4),%eax
-	cmpl %ebx,%eax
+	cmpl $0,%eax
+	je loop_exit
+	cmpl %eax,%ebx
 	jle  start_loop
 
 	movl %eax,%ebx

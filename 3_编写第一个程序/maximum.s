@@ -9,7 +9,7 @@
 
 .section .data
 data_items:             # 数据项
-.long   39,67,34,222,45,75,54,34,44,33,22,11,66,255
+.long   39,67,34,127,45,75,54,34,44,33,22,11,66,0
 
 .section .text
 .globl _start
@@ -19,12 +19,12 @@ _start:
     movl    %eax,   %ebx                # 第一个字节就是最大值
 
 start_loop:                             # 开始循环
-    cmpl    $255,  %eax                 # 检测是否到达数据尾
-    je      loop_exit                   # 到达则执行退出
     incl    %edi                        # 否则执行自增
     movl    data_items(,%edi,4),%eax    # 取出下一个数据
+    cmpl    $0,  %eax                   # 检测是否到达数据尾
+    je      loop_exit                   # 到达则执行退出
     cmpl    %eax,   %ebx                # 比较值的大小
-    jle     start_loop                  # 若新项不大于原最大值
+    jge     start_loop                  # 若新项不大于原最大值
                                         # 则调到循环起始位置
     movl    %eax,   %ebx                # 否则移动最大值到ebx
     jmp start_loop                      # 实现跳转
